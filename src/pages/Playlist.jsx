@@ -6,15 +6,21 @@ import SongTable from "../components/SongTable";
 const Playlist = ({ spotifyApi }) => {
   const { id } = useParams();
   const [playlistInfo, setPlaylistInfo] = useState({});
-  const { songs, setSongs } = useState([]);
-  console.log(spotifyApi);
+  const [songs, setSongs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  console.log(songs);
 
   useEffect(() => {
     async function getSongs() {
+      setLoading(true);
       const data = await spotifyApi.getPlaylist(id);
-      console.log(data);
-      setPlaylistInfo({ name: data.body.name, image: data.body.images[0].url });
+
+      setPlaylistInfo({
+        name: data.body.name,
+        image: data.body.images[0].url,
+      });
       setSongs(data.body.tracks.items);
+      setLoading(false);
     }
     getSongs();
   }, [id, spotifyApi]);
@@ -72,7 +78,7 @@ const Playlist = ({ spotifyApi }) => {
           </Typography>
         </Box>
       </Box>
-      <SongTable />
+      <SongTable songs={songs} loading={loading} />
     </Box>
   );
 };
