@@ -1,4 +1,5 @@
-import { Box } from "@mui/material";
+import { Icon } from "@mui/material";
+import { Box } from "@mui/system";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -7,7 +8,6 @@ export default function NavItem({ active, Icon, name, target }) {
     <Link to={target} style={{ textDecoration: "none" }}>
       <Box
         px={3}
-        py={1}
         sx={{
           color: active ? "text.primary" : "text.secondary",
           display: "flex",
@@ -15,7 +15,7 @@ export default function NavItem({ active, Icon, name, target }) {
           fontWeight: "bold",
           cursor: "pointer",
           fontSize: 14,
-          transition: "color 0.2 ease-in-out",
+          transition: "color 0.2s ease-in-out",
           "&:hover": { color: "text.primary" },
         }}
       >

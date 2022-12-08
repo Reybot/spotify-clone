@@ -3,11 +3,13 @@ import { Routes, Route } from "react-router-dom";
 import SideNav from "./SideNav";
 import { Box } from "@mui/material";
 import Home from "../pages/Home";
-import { useDispatch } from "react-redux";
-import { getPlaylist } from "../store/playlistSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getPlaylist } from "../store/PlaylistSlice";
 import { getAccessTokenFromStorage } from "../utils/getAccessTokenFromStorage";
 import Playlist from "../pages/Playlist";
-import PLayer from "./PLayer";
+import Player from "./Player";
+import MobileNav from "./MobileNav";
+import Library from "../pages/Library";
 
 export default function Dashboard({ spotifyApi }) {
   const dispatch = useDispatch();
@@ -28,30 +30,25 @@ export default function Dashboard({ spotifyApi }) {
   return (
     <Box
       sx={{
-        height: "100vh",
         width: "100vw",
+        height: "100vh",
         display: "flex",
         flexDirection: "column",
       }}
     >
-      <Box
-        sx={{
-          flex: 1,
-          overflowY: "auto",
-          display: "flex",
-        }}
-      >
+      <Box sx={{ flex: 1, overflowY: "auto", display: "flex" }}>
         <SideNav />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/library" element={<h1>Library</h1>} />
+          <Route path="/library" element={<Library />} />
           <Route
             path="/playlist/:id"
             element={<Playlist spotifyApi={spotifyApi} />}
           />
         </Routes>
       </Box>
-      <PLayer />
+      <Player spotifyApi={spotifyApi} />
+      <MobileNav />
     </Box>
   );
 }

@@ -1,25 +1,21 @@
 import React from "react";
 import { Grid, Box, Typography, Avatar, Skeleton } from "@mui/material";
 import { formatTime } from "../utils/formatTime";
-import { playSongFromList } from "../store/PlayerSlice";
 import { useDispatch } from "react-redux";
-
-const SongRow = ({
-  images,
+import { playSongFromList } from "../store/PlayerSlice";
+export default function SongRow({
   title,
   artist,
-  album,
-  duration,
-  i,
-  spotifyApi,
-  contextUri,
-  loading,
+  image,
   position,
-}) => {
-  const image = images?.length > 0 ? images[0] : null;
-
+  album,
+  seconds,
+  loading,
+  contextUri,
+  duration,
+  spotifyApi,
+}) {
   const dispatch = useDispatch();
-
   const onRowClick = () => {
     const song = {
       context_uri: contextUri,
@@ -44,15 +40,16 @@ const SongRow = ({
         color: "text.secondary",
         fontSize: 14,
         cursor: "pointer",
-        "&:hover": { bgcolor: "#F0790030" },
+        "&:hover": { bgcolor: "#f0790030" },
       }}
       onClick={onRowClick}
     >
-      <Grid
-        item
-        sx={{ width: 35, display: "flex", alignItems: "center", fontSize: 16 }}
-      >
-        {i + 1}
+      <Grid item sx={{ width: 35, display: "flex", alignItems: "center" }}>
+        {loading ? (
+          <Skeleton variant="text" width={14} height={24} />
+        ) : (
+          position
+        )}
       </Grid>
       <Grid
         item
@@ -61,9 +58,9 @@ const SongRow = ({
         {loading ? (
           <Skeleton variant="rectangular" width={40} height={40} />
         ) : (
-          <Avatar src={image?.url} alt={title} variant="square" />
+          <Avatar variant="square" src={image} />
         )}
-        <Box ml={1}>
+        <Box>
           <Typography sx={{ fontSize: 16, color: "text.primary" }}>
             {loading ? (
               <Skeleton variant="text" width={130} height={24} />
@@ -73,40 +70,31 @@ const SongRow = ({
           </Typography>
           <Typography sx={{ fontSize: 12, color: "text.secondary" }}>
             {loading ? (
-              <Skeleton variant="text" width={50} height={18} />
+              <Skeleton variant="text" width={50} height={24} />
             ) : (
               artist
             )}
           </Typography>
         </Box>
       </Grid>
-      <Grid
-        item
-        xs={3}
-        sx={{
-          display: { xs: "none", md: "flex" },
-          alignItems: "center",
-        }}
-      >
-        {loading ? <Skeleton variant="text" width={50} height={14} /> : album}
+      <Grid item xs={3} sx={{ display: "flex", alignItems: "center" }}>
+        {loading ? <Skeleton variant="text" width={50} height={24} /> : album}
       </Grid>
       <Grid
         item
         xs={3}
         sx={{
           display: "flex",
-          justifyContent: "flex-end",
           alignItems: "center",
+          justifyContent: "flex-end",
         }}
       >
         {loading ? (
-          <Skeleton variant="text" width={50} height={14} />
+          <Skeleton variant="text" width={50} height={24} />
         ) : (
-          formatTime(duration)
+          formatTime(seconds)
         )}
       </Grid>
     </Grid>
   );
-};
-
-export default SongRow;
+}

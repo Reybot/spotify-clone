@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { ThemeProvider } from "@mui/system";
+import { ThemeProvider } from "@mui/material";
 import { themeOptions } from "./theme/material-theme";
 import { BrowserRouter } from "react-router-dom";
 import SpotifyWebApi from "spotify-web-api-node";

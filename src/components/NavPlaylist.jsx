@@ -19,7 +19,7 @@ export default function NavPlaylist({ loading, name, id }) {
         }}
       >
         {loading ? (
-          <Skeleton variant={"text"} height={"14px"} width={"70px"} />
+          <Skeleton variant="text" height="14px" width="70px" />
         ) : (
           name
         )}

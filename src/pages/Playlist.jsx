@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Avatar, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import SongTable from "../components/SongTable";
 
-const Playlist = ({ spotifyApi }) => {
+export default function Playlist({ spotifyApi }) {
   const { id } = useParams();
   const [playlistInfo, setPlaylistInfo] = useState({});
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log(songs);
 
   useEffect(() => {
     async function getSongs() {
@@ -37,11 +36,10 @@ const Playlist = ({ spotifyApi }) => {
       <Box
         p={{ xs: 3, md: 4 }}
         sx={{
-          background: "linear-gradient(#121212, #f0790070)",
           width: "100%",
+          background: "linear-gradient(#121212, #f0790070)",
           display: "flex",
           justifyContent: "flex-start",
-          gap: 3,
           flexDirection: { xs: "column", md: "row" },
           alignItems: {
             xs: "flex-start",
@@ -63,7 +61,11 @@ const Playlist = ({ spotifyApi }) => {
         />
         <Box>
           <Typography
-            sx={{ fontSize: 12, fontWeight: "bold", color: "text.primary" }}
+            sx={{
+              fontSize: 12,
+              fontWeight: "bold",
+              color: "text.primary",
+            }}
           >
             Playlist
           </Typography>
@@ -81,6 +83,4 @@ const Playlist = ({ spotifyApi }) => {
       <SongTable songs={songs} loading={loading} />
     </Box>
   );
-};
-
-export default Playlist;
+}

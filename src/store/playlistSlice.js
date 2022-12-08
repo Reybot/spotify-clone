@@ -8,9 +8,10 @@ const initialState = {
   albumList: [],
 };
 
-export const playlistSlice = createSlice({
+export const playListSlice = createSlice({
   name: "playlist",
   initialState,
+
   extraReducers: (builder) => {
     builder
       .addCase(getPlaylist.pending, (state, action) => {
@@ -41,4 +42,4 @@ export const getPlaylist = createAsyncThunk(
   }
 );
 
-export default playlistSlice.reducer;
+export default playListSlice.reducer;

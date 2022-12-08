@@ -14,7 +14,7 @@ function App({ spotifyApi }) {
     if (accessToken) {
       setToken(accessToken);
       window.sessionStorage.setItem("spotifyToken", accessToken);
-      window.location.hash = "";
+      // window.location.hash = ''
     }
   }, []);
 

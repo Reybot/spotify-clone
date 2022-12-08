@@ -3,14 +3,13 @@ import { Box, Grid } from "@mui/material";
 import { AccessTimeRounded } from "@mui/icons-material";
 import SongRow from "./SongRow";
 
-const SongTable = ({ songs, loading }) => {
-  console.log(songs);
+export default function SongTable({ songs, loading }) {
   return (
     <Box p={{ xs: 3, md: 4 }} sx={{}}>
       <Grid
         container
         px={2}
-        py={2}
+        py={1}
         sx={{ fontSize: 14, color: "text.secondary" }}
       >
         <Grid
@@ -37,9 +36,9 @@ const SongTable = ({ songs, loading }) => {
           item
           xs={3}
           sx={{
+            flex: 1,
             display: "flex",
             alignItems: "center",
-            flex: 1,
           }}
         >
           Album
@@ -61,12 +60,11 @@ const SongTable = ({ songs, loading }) => {
             return <SongRow loading={true} />;
           })
         : songs.map(({ track }, index) => {
-            console.log(track);
             return (
               <SongRow
                 title={track.name}
                 artist={track.artists[0].name}
-                image={track.album.images[0]?.url}
+                image={track.album.images[0].url}
                 position={index + 1}
                 album={track.album.name}
                 seconds={track.duration_ms / 1000}
@@ -75,6 +73,4 @@ const SongTable = ({ songs, loading }) => {
           })}
     </Box>
   );
-};
-
-export default SongTable;
+}

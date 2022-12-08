@@ -4,7 +4,7 @@ export const themeOptions = createTheme({
   palette: {
     primary: {
       main: "#F07900",
-      light: "#F8A145'",
+      light: "#F8A145",
       dark: "#3b5249",
       contrastText: "#ffffff",
     },
@@ -16,5 +16,6 @@ export const themeOptions = createTheme({
       primary: "#ffffff",
       secondary: "#b3b3b3",
     },
+    divider: "#292929",
   },
 });

@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   status: {
@@ -29,12 +29,13 @@ export const playerSlice = createSlice({
           ...state,
           ...action.payload,
           status: { isLoading: false, isError: null },
-        }.addCase(playSongFromList.rejected, (state, action) => {
-          state = {
-            ...state,
-            status: { isLoading: false, isError: action.payload },
-          };
-        });
+        };
+      })
+      .addCase(playSongFromList.rejected, (state, action) => {
+        state = {
+          ...state,
+          status: { isLoading: false, isError: action.payload },
+        };
       });
   },
 });
@@ -60,3 +61,5 @@ export const playSongFromList = createAsyncThunk(
     }
   }
 );
+
+export default playerSlice.reducer;
