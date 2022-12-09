@@ -1,9 +1,20 @@
 import { Stack, Typography, Slider, IconButton } from "@mui/material";
 import { PlayArrow, SkipNext, SkipPrevious, Pause } from "@mui/icons-material";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { formatTime } from "../utils/formatTime";
 
-const PlayerControls = () => {
-  const is_playing = false;
+const PlayerControls = ({ player, duration, progress, is_paused }) => {
+  const [currentProgress, setCurrentProgress] = useState(progress);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!is_paused && player) {
+        setCurrentProgress((c) => c + 1);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [is_paused, player]);
+
   return (
     <Stack
       direction="column"
@@ -19,17 +30,37 @@ const PlayerControls = () => {
         alignItems="center"
         sx={{ width: "100%" }}
       >
-        <IconButton size="small" sx={{ color: "text.primary" }}>
+        <IconButton
+          onClick={() => {
+            setCurrentProgress(0);
+            player.previousTrack();
+          }}
+          size="small"
+          sx={{ color: "text.primary" }}
+        >
           <SkipPrevious sx={{ width: 28, height: 28 }} />
         </IconButton>
-        <IconButton size="small" sx={{ color: "text.primary" }}>
-          {is_playing ? (
-            <Pause sx={{ width: 38, height: 38 }} />
-          ) : (
+        <IconButton
+          onClick={() => {
+            player.togglePlay();
+          }}
+          size="small"
+          sx={{ color: "text.primary" }}
+        >
+          {is_paused ? (
             <PlayArrow sx={{ width: 38, height: 38 }} />
+          ) : (
+            <Pause sx={{ width: 38, height: 38 }} />
           )}
         </IconButton>
-        <IconButton size="small" sx={{ color: "text.primary" }}>
+        <IconButton
+          onClick={() => {
+            setCurrentProgress(0);
+            player.nextTrack();
+          }}
+          size="small"
+          sx={{ color: "text.primary" }}
+        >
           <SkipNext sx={{ width: 28, height: 28 }} />
         </IconButton>
       </Stack>
@@ -45,14 +76,25 @@ const PlayerControls = () => {
           variant="body1"
           sx={{ color: "text.secondary", fontSize: 12 }}
         >
-          1:02
+          {formatTime(currentProgress)}
         </Typography>
-        <Slider size="medium" />
+        <Slider
+          size="medium"
+          min={0}
+          max={duration}
+          value={currentProgress}
+          onChange={(_, value) => {
+            setCurrentProgress(value);
+          }}
+          onChangeCommitted={(_, value) => {
+            player.seek(value * 1000);
+          }}
+        />
         <Typography
           variant="body1"
           sx={{ color: "text.secondary", fontSize: 12 }}
         >
-          3:02
+          {formatTime(duration)}
         </Typography>
       </Stack>
     </Stack>

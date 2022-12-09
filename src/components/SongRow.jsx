@@ -3,6 +3,7 @@ import { Grid, Box, Typography, Avatar, Skeleton } from "@mui/material";
 import { formatTime } from "../utils/formatTime";
 import { useDispatch } from "react-redux";
 import { playSongFromList } from "../store/PlayerSlice";
+import { useParams } from "react-router";
 export default function SongRow({
   title,
   artist,
@@ -15,11 +16,12 @@ export default function SongRow({
   duration,
   spotifyApi,
 }) {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const onRowClick = () => {
     const song = {
-      context_uri: contextUri,
-      offset: { position },
+      context_uri: `spotify:playlist:${id}`,
+      offset: { position: position - 1 },
       position_ms: 0,
       title,
       image: image ? image : {},
@@ -77,7 +79,14 @@ export default function SongRow({
           </Typography>
         </Box>
       </Grid>
-      <Grid item xs={3} sx={{ display: "flex", alignItems: "center" }}>
+      <Grid
+        item
+        xs={3}
+        sx={{
+          display: { xs: "none", md: "flex" },
+          alignItems: "center",
+        }}
+      >
         {loading ? <Skeleton variant="text" width={50} height={24} /> : album}
       </Grid>
       <Grid

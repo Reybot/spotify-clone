@@ -45,6 +45,7 @@ export const playSongFromList = createAsyncThunk(
   async (payload, thunkAPI) => {
     const { spotifyApi, song } = payload;
     const { title, image, artist, duration, position } = song;
+    console.log(song);
     try {
       await spotifyApi.play(song);
       const data = {

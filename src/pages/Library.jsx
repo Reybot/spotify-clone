@@ -5,7 +5,6 @@ import PlaylistItem from "../components/PlaylistItem";
 
 export default function Library() {
   const { albumList, status } = useSelector((state) => state.playlist);
-  console.log(albumList);
 
   return (
     <Box

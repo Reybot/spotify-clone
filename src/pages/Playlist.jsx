@@ -80,7 +80,7 @@ export default function Playlist({ spotifyApi }) {
           </Typography>
         </Box>
       </Box>
-      <SongTable songs={songs} loading={loading} />
+      <SongTable songs={songs} loading={loading} spotifyApi={spotifyApi} />
     </Box>
   );
 }

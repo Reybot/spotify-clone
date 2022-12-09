@@ -3,7 +3,7 @@ import { Box, Grid } from "@mui/material";
 import { AccessTimeRounded } from "@mui/icons-material";
 import SongRow from "./SongRow";
 
-export default function SongTable({ songs, loading }) {
+export default function SongTable({ songs, loading, spotifyApi }) {
   return (
     <Box p={{ xs: 3, md: 4 }} sx={{}}>
       <Grid
@@ -37,7 +37,7 @@ export default function SongTable({ songs, loading }) {
           xs={3}
           sx={{
             flex: 1,
-            display: "flex",
+            display: { xs: "none", md: "flex" },
             alignItems: "center",
           }}
         >
@@ -68,6 +68,8 @@ export default function SongTable({ songs, loading }) {
                 position={index + 1}
                 album={track.album.name}
                 seconds={track.duration_ms / 1000}
+                spotifyApi={spotifyApi}
+                id={track.id}
               />
             );
           })}

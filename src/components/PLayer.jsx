@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { getAccessTokenFromStorage } from "../utils/getAccessTokenFromStorage";
 import PlayerControls from "./PlayerControls";
 import PlayerVolume from "./PlayerVolume";
+import PlayerOverlay from "./PlayerOverlay";
 
 const Player = ({ spotifyApi }) => {
   const track = {
@@ -14,15 +15,14 @@ const Player = ({ spotifyApi }) => {
   };
 
   const [localPlayer, setPlayer] = useState(null);
-  const [is_paused, setPaused] = useState(false);
+  const [is_paused, setPaused] = useState(true);
   const [current_track, setTrack] = useState(track);
   const [device, setDevice] = useState(null);
   const [duration, setDuration] = useState(null);
   const [progress, setProgress] = useState(null);
-
+  const [playerOverlayIsOpen, setPlayerOverlayIsOpen] = useState(false);
+  console.log(localPlayer);
   /* ----- set script and get instance ----- */
-
-  console.log(current_track);
 
   useEffect(() => {
     const token = getAccessTokenFromStorage();
@@ -41,8 +41,6 @@ const Player = ({ spotifyApi }) => {
         volume: 0.5,
       });
 
-      setPlayer(player);
-
       player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID");
         setDevice(device_id);
@@ -59,7 +57,7 @@ const Player = ({ spotifyApi }) => {
         setTrack(state.track_window.current_track);
         setPaused(state.paused);
       });
-
+      setPlayer(player);
       player.connect();
     };
   }, []);
@@ -78,7 +76,6 @@ const Player = ({ spotifyApi }) => {
   /* ----- Transfer Playback ----- */
 
   useEffect(() => {
-    console.log("hej hej");
     const transferMyPlayback = async () => {
       if (device) {
         await spotifyApi.transferMyPlayback([device], true);
@@ -96,6 +93,9 @@ const Player = ({ spotifyApi }) => {
     <Box>
       <Grid
         container
+        onClick={() => {
+          setPlayerOverlayIsOpen((c) => !c);
+        }}
         px={3}
         sx={{
           bgcolor: "Background.paper",
@@ -116,19 +116,17 @@ const Player = ({ spotifyApi }) => {
           }}
         >
           <Avatar
-            src={
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYRbVygZrmKYrNyzTKfcv1UcsKBBvKbQWvIA&usqp=CAU"
-            }
+            src={current_track.album.images[0].url}
             alt={"#"}
             variant="square"
             sx={{ width: 56, height: 56, marginRight: 2 }}
           />
           <Box>
             <Typography sx={{ color: "text.primary", fontSize: 14 }}>
-              Baby
+              {current_track.name}
             </Typography>
             <Typography sx={{ color: "text.secondary", fontSize: 12 }}>
-              Justin Bieber
+              {current_track.artists[0].name}
             </Typography>
           </Box>
         </Grid>
@@ -141,10 +139,24 @@ const Player = ({ spotifyApi }) => {
             alignItems: "center",
           }}
         >
-          <PlayerControls />
+          <PlayerControls
+            player={localPlayer}
+            progress={progress}
+            is_paused={is_paused}
+            duration={duration}
+          />
         </Grid>
-        <PlayerVolume />
+        <PlayerVolume player={localPlayer} />
       </Grid>
+      <PlayerOverlay
+        progress={progress}
+        is_paused={is_paused}
+        duration={duration}
+        player={localPlayer}
+        playerOverlayIsOpen={playerOverlayIsOpen}
+        closeOverlay={() => setPlayerOverlayIsOpen(false)}
+        current_track={current_track}
+      />
     </Box>
   );
 };
