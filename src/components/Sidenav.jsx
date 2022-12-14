@@ -5,7 +5,7 @@ import NavPlaylist from "./NavPlaylist";
 import NavItem from "./NavItem";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 
-export default function Sidenav() {
+export default function SideNav() {
   const { status, albumList } = useSelector((state) => state.playlist);
 
   const renderPlaylist = () => {
