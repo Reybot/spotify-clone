@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPlaylist } from "../store/playlistSlice";
 import { getAccessTokenFromStorage } from "../utils/getAccessTokenFromStorage";
 import Playlist from "../pages/Playlist";
-import Player from "./Player";
+import Player from "./PLayer";
 import MobileNav from "./MobileNav";
 import Library from "../pages/Library";
 
