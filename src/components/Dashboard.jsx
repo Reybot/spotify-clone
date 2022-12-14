@@ -4,7 +4,7 @@ import SideNav from "./SideNav";
 import { Box } from "@mui/material";
 import Home from "../pages/Home";
 import { useDispatch, useSelector } from "react-redux";
-import { getPlaylist } from "../store/PlaylistSlice";
+import { getPlaylist } from "../store/playlistSlice";
 import { getAccessTokenFromStorage } from "../utils/getAccessTokenFromStorage";
 import Playlist from "../pages/Playlist";
 import Player from "./Player";
