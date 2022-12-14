@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import SideNav from "./SideNav";
+import SideNav from "./Sidenav";
 import { Box } from "@mui/material";
 import Home from "../pages/Home";
 import { useDispatch, useSelector } from "react-redux";
